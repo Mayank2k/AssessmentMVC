@@ -1,0 +1,114 @@
+﻿<!--Java script reference files for google charts-->
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script>
+    //initilize globar variable for hold chart data
+    google.load("visualization", "1", { packages: ["corechart"] });
+</script>
+<script type="text/javascript">
+    //google.load("visualization", "1", { packages: ["corechart"] });
+    //google.setOnLoadCallback(drawChart('JsonResult'));
+    var chartData1;
+    var chartData2;
+    var chartData3;
+    // get the chart data from the server.
+    $(document).ready(function () {        
+        //var userId1 = $("#userId").val();        
+        $.ajax({
+                url: $("#myUrl").val() + "GetOverAllScores",
+                type: "GET",       
+                //data: { userId: $('#userId').val() },
+                data: { userId: $("#userId").val(), schoolId: $("#schoolId").val(), classId: $("#classId").val(), sectionId: $("#sectionId").val(), subjectId: $("#subjectId").val() },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    chartData1 = data.FirstList;
+                    chartData2 = data.SecondList;
+                    chartData3 = data.ThirdList;
+
+                    //First Chart    
+                    var data = new google.visualization.DataTable();
+                    //Adding columns to data table to insert the chart data
+                    data.addColumn('string', 'User');
+                    data.addColumn('number', 'Percentage');
+                    //bind the data to the data table using for loop
+                    var p=0;
+                    for (var i = 0; i < chartData1.length; i++) {
+                        data.addRow([chartData1[i].UserId, chartData1[i].Percentage]);
+                        p = p + chartData1[i].Percentage;
+                    }
+                    data.addRow(['', 100-p]);
+                    
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart($('#chart1')[0]);
+                    chart.draw(data,
+                          {
+                              title: "Subject (" + p + "%)", //title of the pie chart
+                              position: "top", fontsize: "14px", pieHole: 0.8, legend: 'none', chma: '1,1,1,1' ,
+                              chartArea: { width: '90%' }, pieSliceText: "none"
+                          });
+
+                    ////Second Chart
+                    var data = new google.visualization.DataTable();
+                    //Adding columns to data table to insert the chart data
+                    data.addColumn('string', 'User');
+                    data.addColumn('number', 'Percentage');
+                    //bind the data to the data table using for loop
+                    var p = 0;
+                    for (var i = 0; i < chartData2.length; i++) {
+                        data.addRow([chartData2[i].UserId, chartData2[i].Percentage]);
+                        p = p + chartData2[i].Percentage;
+                    }
+                    data.addRow(['', 100 - p]);
+
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart($('#chart2')[0]);
+                    chart.draw(data,
+                          {
+                              title: "Compentency (" + p + "%)", //title of the pie chart
+                              position: "top", fontsize: "14px", pieHole: 0.8, legend: 'none', chma: '1,1,1,1',
+                              chartArea: { width: '90%' }, pieSliceText: "none"
+                          });
+
+                    ////Third Chart
+                    var data = new google.visualization.DataTable();
+                    //Adding columns to data table to insert the chart data
+                    data.addColumn('string', 'User');
+                    data.addColumn('number', 'Percentage');
+                    //bind the data to the data table using for loop
+                    var p = 0;
+                    for (var i = 0; i < chartData3.length; i++) {
+                        data.addRow([chartData3[i].UserId, chartData3[i].Percentage]);
+                        p = p + chartData3[i].Percentage;
+                    }
+                    data.addRow(['', 100 - p]);
+
+                    // Instantiate and draw our chart, passing in some options
+                    var chart = new google.visualization.PieChart($('#chart3')[0]);
+                    chart.draw(data,
+                          {
+                              title: "Difficulty Level (" + p + "%)", //title of the pie chart
+                              position: "top", fontsize: "14px", pieHole: 0.8, legend: 'none', chma: '1,1,1,1',
+                              chartArea: { width: '90%' }, pieSliceText: "none"
+                          });
+                    //var data = google.visualization.arrayToDataTable(r.ThirdList);
+                    //var options = {title: 'Difficulty Level', pieHole: 0.5, legend: 'none', chma: '1,1,1,1' };
+                    //var chart = new google.visualization.PieChart($('#chart3')[0]);
+                    //chart.draw(data, options);
+
+                },
+                error: function () {
+                    alert("Error loading data! Please try again.");
+                }
+            });
+    });
+</script>
+<table style="background-color:darkblue; color:white;" width="100%">
+    <tr><td colspan="4">OVERALL SCORES</td></tr>
+    <tr>
+        <td width="33%"><div id="chart1" /></td>
+        <td width="33%"><div id="chart2" /></td>
+        <td width="34%"><div id="chart3" /></td>
+    </tr>
+</table>

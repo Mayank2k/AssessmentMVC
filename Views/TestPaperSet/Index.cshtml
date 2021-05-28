@@ -1,0 +1,44 @@
+﻿@model IEnumerable<AssessmentMVC.Models.TestPaperSet>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Test Paper Sets</h2>
+
+<p>
+    @Html.ActionLink("Create New Set", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TestPaperSetCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.TestPaperSetCode).ToString(), "Details", "TestPaperSet", new { id = item.TestPaperSetCode }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.TestPaperSetCode }) |
+            @Html.ActionLink("Details", "Details", new { id = item.TestPaperSetCode })
+        </td>
+    </tr>
+}
+
+</table>

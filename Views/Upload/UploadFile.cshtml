@@ -1,0 +1,84 @@
+﻿@using AssessmentMVC.Custom;
+@{
+    ViewBag.Title = "Upload Image";
+}
+
+<script type="text/javascript">
+    function show(input) {        
+        $("#uploaded_img").hide();
+        $('#lnkurl').hide();
+        $("#copyBtn").hide();
+        $("#msg").text('');
+        
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        if ($.inArray($(input).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Only '.jpeg','.jpg', '.png', '.gif', '.bmp' formats are allowed.");
+            $(input).val('');
+        }
+        if (input.files && input.files[0]) {
+            var filerdr = new FileReader();
+            filerdr.onload = function (e) {
+                $('#user_img').attr('src', e.target.result);
+            }
+            filerdr.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function showinfo(input) {        
+        var imgurl = document.getElementById("uploaded_img").src;
+        $('#lnkurl').attr('href', imgurl);
+        $('#lnkurl').text(imgurl);
+    }
+
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+
+    //window.onload = function () {
+    //    $("#copyBtn").onclick = function () {
+    //        document.execCommand('copy');
+    //    }
+    //}
+    //document.addEventListener('copy', function (e) {
+    //    e.clipboardData.clearData();
+    //    var imgurl = document.getElementById("uploaded_img").src;
+    //    e.clipboardData.setData('text/plain', imgurl);
+    //    e.preventDefault(); // default behaviour is to copy any selected text
+    //});
+
+</script>
+
+<h3>Upload Image to Server</h3>
+<hr />
+<h4><b>Local Image:</b></h4>
+
+@using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div>
+        <input type="file" name="file" id="file" onchange="show(this);" />
+        <br />
+        @Html.Label("New File name:")
+        @Html.TextBox("userFileName", Request["QuestionCode"])        
+        <input type="submit" value="Upload Image" />
+        <br />
+        <img id="user_img" />        
+        <label id="msg">@ViewBag.Message</label>
+
+        @if (!string.IsNullOrEmpty(ViewBag.URL))
+        {
+            <h4><b>Uploaded Image:</b></h4>
+            <div>
+                <input type="button" id="copyBtn" style="visibility:visible" onclick="copyToClipboard('#lnkurl')" value="Copy image (URL)" />                
+                <a id="lnkurl" href="" style="visibility:visible" target="_blank"></a>
+            </div>            
+            <div>
+                <img id="uploaded_img" src="@VirtualPathUtility.ToAbsolute(ViewBag.URL)" style="visibility:visible" onload="showinfo(this);" />
+                @*@Html.Image((string)ViewBag.URL)*@
+            </div>            
+        }
+    </div>
+} 

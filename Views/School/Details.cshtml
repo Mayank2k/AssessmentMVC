@@ -1,0 +1,199 @@
+﻿@model AssessmentMVC.Models.School
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>School</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Board.BoardName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Board.BoardName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcademicSessionStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcademicSessionStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcademicSessionEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcademicSessionEnd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SPOCName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SPOCName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SPOCPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SPOCPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SPOCEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SPOCEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SPOCFax)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SPOCFax)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressLine1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddressLine1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressLine2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddressLine2)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City.CityName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City.CityName)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State.StateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State.StateName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country.CountryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country.CountryName)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ZipCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolLogo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SchoolLogo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.School2.SchoolCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.School2.SchoolCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+
+
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SchoolID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

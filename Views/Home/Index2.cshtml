@@ -1,0 +1,65 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index2</title>
+</head>
+<body>
+    @*<div> 
+        <table>
+            <tr>
+                <td>
+                    <img src="@Url.Action("CreateBar")" alt="Bar Chart using MVC" />
+                </td>
+                <td>
+                    <img src="@Url.Action("CreatePie")" alt="Pie Chart using MVC" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <img src="@Url.Action("CreateLine")" alt="Line Chart using MVC" />
+                </td>
+            </tr>
+        </table>
+    </div>*@
+
+@Ajax.ActionLink("Create Bar", "CreateBar",
+    new AjaxOptions
+    {
+        HttpMethod = "GET", // HttpMethod to use, GET or POST
+        UpdateTargetId = "divChart", // ID of the HTML element to update
+        InsertionMode = InsertionMode.Replace // Replace the existing contents
+    })
+
+<span style="color:Blue">|</span>
+
+@Ajax.ActionLink("Create Pie", "CreatePie",
+    new AjaxOptions
+    {
+        HttpMethod = "GET", // HttpMethod to use, GET or POST
+        UpdateTargetId = "divChart", // ID of the HTML element to update
+        InsertionMode = InsertionMode.Replace // Replace the existing contents
+    })
+
+<span style="color:Blue">|</span>
+
+@Ajax.ActionLink("Create Line", "CreateLine",
+    new AjaxOptions
+    {
+        HttpMethod = "GET", // HttpMethod to use, GET or POST
+        UpdateTargetId = "divChart", // ID of the HTML element to update
+        InsertionMode = InsertionMode.Replace // Replace the existing contents
+    })
+
+<br /><br />
+<div id="divChart">
+</div>
+
+</body>
+</html>

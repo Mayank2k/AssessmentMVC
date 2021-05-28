@@ -1,0 +1,76 @@
+﻿@model IEnumerable<AssessmentMVC.Models.Unit>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Unit List</h2>
+<p class="pull-right">
+    @Html.ActionLink("Add Unit", "Create")
+</p>
+<hr />
+
+<p>
+    @using (@Html.BeginForm("Index", "Unit", FormMethod.Get))
+    {
+        @Html.Label("Unit:")
+        @Html.TextBox("Unit")
+        @Html.Label(" OR Course: ")        
+        @Html.DropDownList("CourseID", null, "-- All Courses --", null)
+        <button class="btn btn-default" type="submit" value="Search">
+            <span class="glyphicon glyphicon-search"> Search</span>
+        </button>
+    }
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.ClassID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.SubjectID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalQuestions)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course.Class.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course.Subject.SubjectName)
+        </td>
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.UnitID).ToString(), "Details", "Unit", new { id = item.UnitID }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.TotalQuestions).ToString(), "Index", "QuestionMaster", new { unitID = item.UnitID }, null)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UnitID }) |
+            @Html.ActionLink("Topics", "Index", "Topic", new { UnitId = item.UnitID , courseID = item.CourseID }, null) 
+        </td>
+    </tr>
+}
+
+</table>

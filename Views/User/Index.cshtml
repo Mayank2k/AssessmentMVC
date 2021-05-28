@@ -1,0 +1,155 @@
+﻿@using AssessmentMVC.Custom;
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<AssessmentMVC.Models.User>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<script src="~/Scripts/CustomJsUser.js"></script>
+
+@*<script type="text/javascript">
+    $(function () {
+        $("#txtSearch").autocomplete({
+            source: '@Url.Action("GetRoles")',
+            minLength: 1
+        });
+    });
+</script>*@
+@using (Html.BeginForm("ExportToExcel", "User", new { SchoolId = Request["SchoolId"]}, FormMethod.Post))
+{
+    <div id="print-content">
+        <button class="btn btn-primary navbar-btn pull-right">
+            <span class="glyphicon glyphicon-download-alt"></span>
+        </button>
+    </div>
+}
+<h2>Users</h2>
+
+<div class="pull-right">@Html.ActionLink("Create New User", "Create") | 
+    <a href="~/upload.aspx" target="_blank">Upload</a> 
+ </div>
+<hr />
+<p>
+    <div class="form-group">
+        <div class="col-md-1">
+            <b>School:</b>
+        </div>
+        <div class="col-md-5">
+            @using (@Html.BeginForm("Index", "User", FormMethod.Get, null))
+            {
+                @Html.DropDownList("SchoolID", null, "-- Select School --",htmlAttributes: new { @class = "form-control" , onchange = "this.form.submit();" })
+            }
+            
+        </div>
+        <div class="col-md-6">
+            @using (@Html.BeginForm("Index", "User", FormMethod.Get, null))
+            {
+                @Html.Hidden("SchoolId", Request["SchoolId"])
+                <b>Search By:</b>
+                @Html.RadioButton("searchBy", "Name", true) <text>Name</text>
+                @*@Html.RadioButton("searchBy", "Role") <text>Role</text>*@
+                @Html.TextBox("search")
+                <button class="btn btn-default" type="submit" value="Search">
+                    <span class="glyphicon glyphicon-search"> Search</span>
+                </button>
+            }
+        </div>
+    </div>
+</p>
+<br />
+<br />
+
+@using (Html.BeginForm("DeleteSelected", "User", FormMethod.Post))
+{
+
+    <table class="table">
+        <tr>
+            @*<th>
+                <input type="checkbox" name="checkAll" id="checkAll" />
+            </th>*@
+            @*<th>
+                @Html.DisplayNameFor(model => model.First().Image)
+            </th>*@
+            <th>
+                @Html.ActionLink("Full Name", "Index", new { sortBy = ViewBag.NameSort, searchBy = Request["searchBy"], search = Request["search"] })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().UserMappings.First().AdmissionNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().UserMappings.First().ClassID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().UserMappings.First().SectionID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().UserMappings.First().RollNo)
+            </th>
+            @*<th>
+                @Html.ActionLink("Gender", "Index", new { sortBy = ViewBag.GenderSort, searchBy = Request["searchBy"], search = Request["search"] })
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.First().RegistrationNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().RoleTypeID)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.First().School.SchoolName)
+            </th>*@
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+                    <input type="checkbox" name="recordsToDelete" id="recordsToDelete" value="@item.UserID" />
+                </td>
+                <td>                   
+                   <img src="@Url.Content("~/Images/OS5A1.png")" alt="No Image" width="50" height="50" class="img-circle" />
+                </td>*@
+                <td>
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.Name).ToString(), "Details", "User", new { id = item.UserID }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserMappings.FirstOrDefault().AdmissionNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserMappings.FirstOrDefault().ClassID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserMappings.FirstOrDefault().SectionID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserMappings.FirstOrDefault().RollNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleType.RoleTypeName)
+                </td>
+                @*<td>
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.School.SchoolName).ToString(), "Details", "School", new { id = item.SchoolID }, null)
+                </td>*@
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.UserID }) |*@
+                    @*@Html.ActionLink("Details", "Details", new { id = item.UserID }) |*@
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.UserID }) |*@
+                    @if (item.RoleTypeID == 1)
+                    {
+                        @Html.ActionLink("Report", "StudentReport", "Report", new { userId = item.UserID }, new { target = "_blank" })
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    @*<input type="submit" value="Delete Selected" id="btnSubmit" />*@
+}
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, SchoolId = Request["SchoolId"], searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"], sortBy = Request["sortBy"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })

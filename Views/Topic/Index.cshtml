@@ -1,0 +1,64 @@
+﻿@model IEnumerable<AssessmentMVC.Models.Topic>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Topics for UnitID: @Request.QueryString["UnitID"]</h2>
+<p class="pull-right">    
+    @Html.ActionLink("Back to Units", "Index", "Unit", new { CourseID = Request.QueryString["CourseID"] }, null)    |
+    @Html.ActionLink("Add New Topic", "Create", new { courseID = Request.QueryString["CourseID"], unitID = Request.QueryString["UnitID"] })
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TopicID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalQuestions)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course.CourseName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Unit.Description)
+        </td>
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.TopicID).ToString(), "Details", "Topic", new { id = item.TopicID }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.TotalQuestions).ToString(), "Index", "QuestionMaster", new { topicID = item.TopicID }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TopicID }) |
+            @Html.ActionLink("Learning Objectives", "Index", "LearningObjective", new { TopicId = item.TopicID, unitID = item.UnitID}, null) |            
+            @Html.ActionLink("Learning Outcomes", "Index", "LearningOutcome", new { TopicId = item.TopicID, unitID = item.UnitID }, null)            
+        </td>
+    </tr>
+}
+
+</table>

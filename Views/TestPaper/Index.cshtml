@@ -1,0 +1,108 @@
+﻿@model IEnumerable<AssessmentMVC.Models.TestPaper>
+
+@{
+	ViewBag.Title = "Assessment Papers";
+}
+
+@using (Html.BeginForm("ExportToExcel", "TestPaper", new { testPaperSetCode = Request.QueryString["TestPaperSetCode"] }, FormMethod.Post))
+{
+	<div id="print-content">
+		<button class="btn btn-primary navbar-btn pull-right">
+			<span class="glyphicon glyphicon-download-alt"></span>
+		</button>
+	</div>
+}
+<h2>Assessment Papers</h2>
+<div class="pull-right">
+	@Html.ActionLink("Create New Paper", "Create")  |
+	@Html.ActionLink("Set Master", "Index", "TestPaperSet")
+</div>
+
+<hr />
+
+<p>
+	@using (@Html.BeginForm("Index", "TestPaper", FormMethod.Get))
+	{
+		@Html.Label("Paper:")
+		@Html.TextBox("Code", null, new { @placeholder = "Search paper" })
+		@Html.Label("Course: ")
+		@Html.DropDownList("CourseID", null, "-- All --", null)
+		@Html.Label("Sets: ")
+		@Html.DropDownList("TestPaperSetCode", null, "-- All --", null)
+		<button class="btn btn-default" type="submit" value="Search">
+			<span class="glyphicon glyphicon-search"> Search</span>
+		</button>
+	}
+</p>
+
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.TestPaperCode)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Description)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.TestPaperSetCode)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ActivationDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.TotalQuestions)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Marks)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Time)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Active)
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.ActionLink(@Html.DisplayFor(modelItem => item.TestPaperCode).ToString(), "Details", "TestPaper", new { id = item.TestPaperID }, null)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Description)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.TestPaperSetCode)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ActivationDate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.TotalQuestions)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Marks)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Time)
+			</td>
+
+			<td>
+				@Html.DisplayFor(modelItem => item.Active)
+			</td>
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.TestPaperID }) |
+				@using (Html.BeginForm("ExportToExcel", "TestPaper", new { testPaperCode = item.TestPaperCode }, FormMethod.Post))
+				{
+					<button class="btn btn-default">
+						<span class="glyphicon glyphicon-download-alt"></span>
+					</button>
+
+				}
+			</td>
+		</tr>
+	}
+
+</table>

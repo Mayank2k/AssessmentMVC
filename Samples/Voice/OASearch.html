@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <style>
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0
+        }
+
+        .first-row {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            
+        }
+
+        .second-row {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            bottom: 0;            
+        }
+
+            .second-row iframe {
+                display: block;
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+    </style>
+
+    <!-- HTML5 Speech Recognition API -->
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var iframe = document.getElementById('frame');
+            iframe.src = "http://oxfordadvantage.co.in/";
+        });
+
+        var recognition = new webkitSpeechRecognition();
+        recognition.onresult = function (event) {
+            if (event.results.length > 0) {
+                q.value = event.results[0][0].transcript;
+                var iframe = document.getElementById('frame');                
+                
+               //if (vtext.indexOf("assessment") >= 0) {
+               //     $('a:contains("Assessment")').css('background-color', 'yellow');
+               //     $('a:contains("Assessment")')[0].click();
+               // }
+                var vtext = q.value.toLowerCase(); 
+                //alert(vtext);
+
+
+                if (vtext.indexOf("home") >= 0) {
+                    iframe.src = "http://oxfordadvantage.co.in/OxfordAdvantage/School/teacherpanel.aspx";                    
+                }
+                if (vtext.indexOf("bookmark") >= 0) {
+                    iframe.src = "http://oxfordadvantage.co.in/OxfordAdvantage/School/BookMarks.aspx";
+                }
+                if (vtext.indexOf("class") >= 0) {
+                    iframe.src = "http://oxfordadvantage.co.in/OxfordAdvantage/School/MyStudents.aspx";
+                }
+                if (vtext.indexOf("notification") >= 0) {
+                    iframe.src = "http://oxfordadvantage.co.in/OxfordAdvantage/Messaging/Notification.aspx";
+                }
+                if (vtext.indexOf("report") >= 0) {
+                    iframe.src = "http://oxfordadvantage.co.in/OxfordAdvantage/Reports/Lessonplanoverallreport.aspx";
+                }
+                if (vtext.indexOf("marks") >= 0 || vtext.indexOf("entry") >= 0) {
+                    iframe.src = "http://oxfordadvantage.co.in/OxfordAdvantage/Reports/CCE.aspx";
+                }
+
+                recognition.start();
+               
+            }
+        }
+
+
+    </script>
+</head>
+<body>
+    <!--<div class="loadiframe">
+        
+    </div>    
+    <iframe id='frame' frameborder="0" scrolling="no" width="100%" height="100%" allowfullscreen="true"></iframe>-->    
+
+    <div class="first-row">
+        <input type="text" id="q" name="q" size=60>
+        <button id="b1" onclick="recognition.start()" >Speak to search</button>        
+    </div>
+    <div class="second-row">
+        <iframe id='frame' src="http://oxfordadvantage.co.in/"></iframe>
+    </div>
+</body>
+</html>

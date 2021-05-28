@@ -1,0 +1,247 @@
+﻿@model IEnumerable<AssessmentMVC.Models.TestPaperSectionQuestion>
+
+@*@{
+    /**/
+
+    Layout = null;
+}*@
+
+@*<h2>Question List for Section: </h2>*@
+@*<h2>Question List for Section: @Model.First().TestPaperSection.TestPaperSectionCode </h2>*@
+
+@if (Model.FirstOrDefault() == null || Model.FirstOrDefault().TestPaper.TotalQuestions < Model.FirstOrDefault().TestPaper.MaxQuestions)
+{
+    <p>
+        @*@Html.ActionLink("Add Questions to Test Paper", "Create", new { TestPaperId = Request.QueryString["id"] })*@
+        <a class="btn btn-success pull-right" data-modal="" href="@Url.Action("Create", "TestPaperSectionQuestions", new { TestPaperId = Request.QueryString["id"] })" id="btnCreate">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add Question
+        </a>
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Question Seq#")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionCode)
+        </th>
+        <th>
+            @Html.DisplayName("Question Status")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionBody)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <b>@Html.DisplayFor(modelItem => item.QuestionSequence)</b>
+            </td>
+            <td>
+                <b><u>@Html.ActionLink(@Html.DisplayFor(modelItem => item.QuestionMaster.QuestionCode).ToString(), "Details", "QuestionMaster", new { id = item.QuestionID }, null)</u></b>
+            </td>
+            <td>
+                @Html.Raw(item.QuestionMaster.Status.Description)
+            </td>
+            <td>
+                @Html.Raw(item.QuestionMaster.QuestionBody)
+            </td>
+            <td>
+                @*@Html.ActionLink("Remove", "Delete", new { id = item.TestPaperSectionQuestionID })*@
+                <a data-modal="" href="@Url.Action("Delete", "TestPaperSectionQuestions", new { id = item.TestPaperSectionQuestionID })" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    Remove
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            @*<td>@Html.Action("Index", "QuestionOptions", new { QuestionId = item.QuestionMaster.QuestionID, QuestionCode = item.QuestionMaster.QuestionCode })</td>*@
+            <td>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionOptions.FirstOrDefault().OptionID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionOptions.FirstOrDefault().OptionText)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionOptions.FirstOrDefault().CorrectOption)
+                        </th>
+                        @if (Model.FirstOrDefault() != null && Model.FirstOrDefault().TestPaper.CourseID.Equals(1))
+                        {
+                            <th>
+                                @Html.DisplayName("Score")
+                            </th>
+                        }
+                    </tr>
+
+                    @foreach (var itemOption in item.QuestionMaster.QuestionOptions)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@Html.DisplayFor(modelItem => itemOption.OptionID).ToString(), "Details", "QuestionOptions", new { id = itemOption.QuestionOptionID }, null)
+                            </td>
+                            <td>
+                                @Html.Raw(itemOption.OptionText)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemOption.CorrectOption)
+                            </td>
+                            @if (Model.FirstOrDefault() != null && Model.FirstOrDefault().TestPaper.CourseID.Equals(1))
+                            {
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemOption.ScoringWeight)
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+
+                @if (Model.FirstOrDefault() != null && !Model.FirstOrDefault().TestPaper.CourseID.Equals(1))
+                {
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.QuestionMaster.QuestionOptions.FirstOrDefault().OptionID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.QuestionMaster.QuestionOptions.FirstOrDefault().ExplanationForOption)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.QuestionMaster.QuestionOptions.FirstOrDefault().MisconceptionID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.QuestionMaster.QuestionOptions.FirstOrDefault().OtherMisconceptionID1)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.QuestionMaster.QuestionOptions.FirstOrDefault().OtherMisconceptionID2)
+                            </th>
+                        </tr>
+
+                        @foreach (var itemOption in item.QuestionMaster.QuestionOptions)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemOption.OptionID)
+                                </td>
+                                <td>
+                                    @Html.Raw(itemOption.ExplanationForOption)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemOption.Misconception.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemOption.Misconception1.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => itemOption.Misconception2.Description)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().CourseID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().UnitID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().TopicID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().LearningObjectiveID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().LearningOutcomeID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().CompetencyID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().SkillID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().SubskillID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().LearningLevelID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuestionMaster.QuestionTags.FirstOrDefault().DifficultyLevelID)
+                        </th>
+                    </tr>
+
+                    @foreach (var itemTag in item.QuestionMaster.QuestionTags)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.Course.CourseName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.Unit.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.Topic.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.LearningObjective.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.LearningOutcome.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.Competency.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.Skill.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.SubSkill.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.LearningLevel.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => itemTag.DifficultyLevel.Description)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal fade in'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/scripts/Custom/modeldialog.js")
+}

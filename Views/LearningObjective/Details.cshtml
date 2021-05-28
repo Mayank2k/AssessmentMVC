@@ -1,0 +1,100 @@
+﻿@model AssessmentMVC.Models.LearningObjective
+
+@{
+    ViewBag.Title = "Details";
+    dynamic topicID = Model != null ? Model.TopicID.ToString() : Request.QueryString["TopicID"];
+    dynamic unitID = Model != null ? Model.Topic.UnitID.ToString() : Request.QueryString["UnitID"];
+
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LearningObjective</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LearningObjectiveID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LearningObjectiveID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TopicID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Topic.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Topic.UnitID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Topic.Unit.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Topic.Course.CourseID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Topic.Course.CourseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LearningObjectiveID }) |
+    @Html.ActionLink("Back to List", "Index", new { TopicId = @topicID, UnitId = @unitID }, null)
+</p>

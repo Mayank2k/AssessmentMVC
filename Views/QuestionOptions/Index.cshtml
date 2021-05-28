@@ -1,0 +1,106 @@
+﻿@model IEnumerable<AssessmentMVC.Models.QuestionOption>
+
+@{
+    Layout = null;
+}
+
+<h2>Options for Question Code: @ViewBag.QuestionCode</h2>
+
+@if (@Model.FirstOrDefault() == null || !@Model.FirstOrDefault().QuestionMaster.StatusID.Equals("A"))
+{
+<p class="pull-right">
+    @Html.ActionLink("Create New Option", "Create", new { questionId = Request.QueryString["QuestionId"] })
+</p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OptionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OptionText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CorrectOption)
+        </th>
+        @if (Model.FirstOrDefault() != null && Model.FirstOrDefault().ScoringWeight != null)
+        {
+            <th>
+                @Html.DisplayName("Score")
+            </th>
+        }
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(modelItem => item.OptionID).ToString(), "Details", "QuestionOptions", new { id = item.QuestionOptionID }, null)
+            </td>
+            <td>
+                @Html.Raw(item.OptionText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CorrectOption)
+            </td>
+            @if (Model.FirstOrDefault() != null && Model.FirstOrDefault().ScoringWeight != null)
+            {
+                <td>
+                    @Html.DisplayFor(model => item.ScoringWeight)
+                </td>
+            }
+            @if (@Model.FirstOrDefault() == null || !@Model.FirstOrDefault().QuestionMaster.StatusID.Equals("A"))
+            {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.QuestionOptionID })
+                @*@Html.ActionLink("Details", "Details", new { id=item.QuestionOptionID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.QuestionOptionID })*@
+            </td>
+            }
+        </tr>
+    }
+
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OptionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExplanationForOption)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MisconceptionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OtherMisconceptionID1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OtherMisconceptionID2)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(modelItem => item.OptionID).ToString(), "Details", "QuestionOptions", new { id = item.QuestionOptionID }, null)
+            </td>
+            <td>
+                @Html.Raw(item.ExplanationForOption)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Misconception.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Misconception1.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Misconception2.Description)
+            </td>
+        </tr>
+    }
+
+</table>

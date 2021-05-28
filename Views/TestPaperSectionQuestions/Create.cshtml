@@ -1,0 +1,105 @@
+﻿@model AssessmentMVC.Models.TestPaperSectionQuestion
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Add Question for Test Paper <b>@ViewBag.TestPaperCode</b></h3>
+    <h5>Course:<b>@ViewBag.CourseName</b></h5>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#QuestionID').change(function () {
+            var myUrl = $("#myUrl").val();            
+            $.ajax({
+                type: "GET",
+                url: myUrl + "GetQuestionText",
+                datatype: "Json",
+                //data: { questionCode: '20670' },
+                data: { testPaperID: $('#TestPaperID').val(), questionCode: $('#QuestionID').val() },
+                success: function (data) {                                        
+                        $('#QuestionBody').html(data);
+                }
+            });
+        });
+    });
+
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("myUrl", @Url.Action("/", "TestPaperSectionQuestions"))
+        @Html.HiddenFor(model => model.TestPaperID)
+        @Html.HiddenFor(model => model.TestPaperSectionID)
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.TestPaperID, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.DropDownList("TestPaperID", null, htmlAttributes: new { @id= "TestPaperID", @class = "form-control", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.TestPaperID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TestPaperSectionID, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.DropDownList("TestPaperSectionID", null, htmlAttributes: new { @class = "form-control", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.TestPaperSectionID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionID, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @*@Html.DropDownList("QuestionID", null, "-- Select Question --", htmlAttributes: new { @class = "form-control" })*@
+                @Html.EditorFor(model => model.QuestionID, new { htmlAttributes = new { @id = "QuestionID", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.QuestionID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionSequence, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.EditorFor(model => model.QuestionSequence, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.QuestionSequence } })
+                @Html.ValidationMessageFor(model => model.QuestionSequence, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Description", htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.Label(" ", htmlAttributes: new { @id = "QuestionBody", @class = "control-label", style = "text-align:left" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Active, htmlAttributes: new { @checked = true })
+                    @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <span id="progress" class="text-center" style="display: none;">
+                <img src="~/images/wait.gif" alt="wait" />
+                Wait..
+            </span>
+
+            <input class="btn btn-primary" type="submit" value="Save" />
+            <button class="btn btn-warning" data-dismiss="modal">Close</button>
+        </div>
+
+    </div>
+}
+
+<script>
+    $("form").removeData("validator");
+    $("form").removeData("unobtrusiveValidation");
+    $.validator.unobtrusive.parse("form");
+</script>

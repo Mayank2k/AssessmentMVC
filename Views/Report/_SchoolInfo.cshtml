@@ -1,0 +1,54 @@
+﻿@using AssessmentMVC.Custom;
+@model AssessmentMVC.Models.School
+
+@Html.Hidden("schoolId", Request.QueryString["SchoolID"])
+@Html.Hidden("classId", Request.QueryString["ClassID"])
+@Html.Hidden("sectionId", Request.QueryString["SectionID"])
+@Html.Hidden("subjectId", Request.QueryString["SubjectID"])
+
+@if (Request.QueryString["SubjectID"] != null)
+{   
+    <h2>Subject Report</h2>
+}
+else if (Request.QueryString["SectionID"] != null)
+{   
+    <h2>Section Report</h2>
+}
+else if (Request.QueryString["ClassID"] != null)
+{   
+    <h2>Class Report</h2>
+}
+else if (Request.QueryString["SchoolID"] != null)
+{   
+    <h2>School Report</h2>
+}
+
+<br/>
+<table border="0" style="background-color:lightgray" width="100%" >    
+    <tr> <td colspan="4">-</td></tr>
+    <tr>
+        <td width="10%" valign="middle" align="center">        
+            @*<img src="~/Images/OS5A1.png" alt="No Image" width="100" height="100" class="img-circle"/>*@
+            @*@Html.Image("~/Images/OS5A1.png")*@
+            </td>
+        <td width="10%"></td>
+        <td width="60%" valign="top">
+                <b>@Model.SchoolName (@Model.SchoolCode)</b>                
+        </td>
+        <td width="20%" valign="top">
+            @if (Request.QueryString["ClassID"] != null)
+            {
+                <b>Class: @Request.QueryString["ClassID"]</b>
+            }
+            @if (Request.QueryString["SectionID"] != null)
+            {
+                <b>Section: @Request.QueryString["SectionID"]</b>
+            }           
+        <br /><br/>
+        Assessment Cycle: July - August
+        </td>
+    </tr>    
+    <tr><td colspan="2"> <i>SchoolCode: @Model.SchoolCode</i></td>
+    <td colspan="2" align="left">@Model.CityCode, (@Model.StateCode)</td></tr>
+    <tr> <td colspan="4">-</td></tr>
+</table>

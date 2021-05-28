@@ -1,0 +1,145 @@
+﻿<img id="mic-off" style="display:none" src="~/Images/mic-mute.gif" onclick="start()" class="nav navbar-nav navbar-right img-circle" width="50" height="50" />
+<img id="mic-on" style="display:block" src="~/Images/mic.gif" onclick="stop()" class="nav navbar-nav navbar-right img-circle" width="50" height="50" />
+
+<style>
+    mark {
+        background: orange;
+        color: black;
+    }
+</style>
+<!-- HTML5 Speech Recognition API -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/mark.js/7.0.0/jquery.mark.min.js"></script>
+<script type="text/javascript">
+    //$.extend($.expr[":"], {
+    //    "containsIN": function (elem, i, match, array) {
+    //        return (elem.textContent || elem.innerText || "").toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+    //    }
+    //});
+
+    
+    var recognition;
+    $(document).ready(function () {
+        if (window.hasOwnProperty('webkitSpeechRecognition')) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = "en-US";
+            recognition.start();
+
+            recognition.onresult = function (e) {
+                var vtext = e.results[0][0].transcript.toLowerCase();
+                //alert(vtext);
+
+                if (vtext.indexOf("assessment") >= 0) {
+                    $('a:contains("Assessment")').css('background-color', 'yellow');
+                    $('a:contains("Assessment")')[0].click();
+                }
+
+                if (vtext.indexOf("question") >= 0) {
+                    $('a:contains("Question Bank")').css('background-color', 'yellow');
+                    $('a:contains("Question Bank")')[0].click();
+                }
+
+                if (vtext.indexOf("school") >= 0) {
+                    $('a:contains("Schools")').css('background-color', 'yellow');
+                    $('a:contains("Schools")')[0].click();
+                }
+
+                if (vtext.indexOf("user") >= 0) {
+                    $('a:contains("Users")').css('background-color', 'yellow');
+                    $('a:contains("Users")')[0].click();
+                }
+
+                if (vtext.indexOf("result") >= 0) {
+                    $('a:contains("Results")').css('background-color', 'yellow');
+                    $('a:contains("Results")')[0].click();
+                }
+
+                if (vtext.indexOf("upload") >= 0) {
+                    $('a:contains("Upload Data")').css('background-color', 'yellow');
+                    $('a:contains("Upload Data")')[0].click();
+                }                
+                
+                if (vtext.indexOf("convert") >= 0) {
+                    $('a:contains("Convert Word to Excel")').css('background-color', 'yellow');
+                    $('a:contains("Convert Word to Excel")')[0].click();
+                }
+
+                //$('a:contains("schools")').css('background-color', 'yellow');
+                //$('a:contains("Schools")')[0].click();
+                //$("a:contains('" + vtxt + "')").css('background-color', 'yellow');
+
+            };
+
+            recognition.onerror = function (e) {
+                //recognition.stop();
+            }
+
+        }
+       // var vtext = "Schools";
+        //$('a:contains("Schools")').css('color', 'blue');
+        //$('a:contains("Schools")')[0].click();
+
+    });
+
+    function stop() {
+        document.getElementById("mic-on").style.display = "none";
+        document.getElementById("mic-off").style.display = "block";
+        recognition.stop();
+    }
+    
+    function start() {
+        document.getElementById("mic-off").style.display = "none";
+        document.getElementById("mic-on").style.display = "block";
+
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function (e) {
+            var vtext = e.results[0][0].transcript.toLowerCase();
+            //alert(vtext);
+            
+            if (vtext.indexOf("assessment") >= 0) {
+                $('a:contains("Assessment")').css('background-color', 'yellow');
+                $('a:contains("Assessment")')[0].click();
+            }
+
+            if (vtext.indexOf("question") >= 0)
+            {
+                $('a:contains("Question Bank")').css('background-color', 'yellow');
+                $('a:contains("Question Bank")')[0].click();
+            }
+
+            if (vtext.indexOf("school") >= 0) {
+                $('a:contains("Schools")').css('background-color', 'yellow');
+                $('a:contains("Schools")')[0].click();
+            }
+
+            if (vtext.indexOf("user") >= 0) {
+                $('a:contains("Users")').css('background-color', 'yellow');
+                $('a:contains("Users")')[0].click();
+            }
+
+            if (vtext.indexOf("result") >= 0) {
+                $('a:contains("Results")').css('background-color', 'yellow');
+                $('a:contains("Results")')[0].click();
+            }
+
+            //$('a:contains("schools")').css('background-color', 'yellow');
+            //$('a:contains("Schools")')[0].click();
+            //$("a:contains('" + vtxt + "')").css('background-color', 'yellow');
+            
+        };
+
+        recognition.onerror = function (e) {
+            //recognition.stop();
+        }
+
+    }
+
+  
+</script>
+

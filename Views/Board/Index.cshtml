@@ -1,0 +1,38 @@
+﻿@model IEnumerable<AssessmentMVC.Models.Board>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Education Board</h2>
+
+<p>
+    @Html.ActionLink("Create Board", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BoardName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.BoardName).ToString(), "Details", "Board", new { id = item.BoardID }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BoardID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.BoardID })          
+        </td>
+    </tr>
+}
+
+</table>

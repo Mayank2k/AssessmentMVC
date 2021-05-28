@@ -1,0 +1,50 @@
+﻿@model IEnumerable<AssessmentMVC.Models.State>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>States for Country: @Model.First().Country.CountryName</h2>
+<p class="pull-right">
+    @Html.ActionLink("Add New State", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StateCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StateName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country.CountryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.StateCode).ToString(), "Details", "State", new { id = item.StateCode}, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StateName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country.CountryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.StateCode }) |       
+            @Html.ActionLink("Cities", "Index", "City", new { StateCode = item.StateCode }, null) 
+        </td>
+    </tr>
+}
+
+</table>

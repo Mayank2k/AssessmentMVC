@@ -1,0 +1,121 @@
+﻿    @*@Html.Hidden("myUrl", @Url.Action("/", "Report")) 
+    @Html.Action("StudentInfo", new { userId = @ViewBag.UserId })
+    @Html.Partial("_OverAllScore")
+    @Html.Partial("_SubjectWiseScore")
+    @Html.Partial("_CompetencyWiseScore")
+    @Html.Partial("_DifficultyWiseScore")*@
+
+<!--Java script reference files for google charts-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="http://www.cloudformatter.com/Resources/Pages/CSS2Pdf/Script/xepOnline.jqPlugin.js"></script>
+
+<script src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="~/Scripts/Custom/CustomReport.js"></script>
+
+<script type="text/javascript">
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        w = window.open();
+        w.document.write(printContents);
+        w.print();
+        w.close();
+    }
+
+    function pdfDiv(userid) {
+        xepOnline.Formatter.Format('chart1', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chart2', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chart3', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartS1', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartS2', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartS3', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartC1', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartC2', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartC3', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartC4', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartC5', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartD1', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartD2', { render: 'none', srctype: 'svg' });
+        xepOnline.Formatter.Format('chartD3', { render: 'none', srctype: 'svg' });
+        
+        //PrintPdf();
+        return xepOnline.Formatter.Format('Report', { render: 'download', filename: 'StudentReport_' + userid, mimeType: 'application/pdf' });
+
+    }
+
+    function PrintPdf()
+    {
+        $.ajax({
+            url: $("#myUrl").val() + "ReportPdf",
+            type: "GET",
+            //data: { id: id }
+        }).done(function() {
+            alert('Added'); 
+        });
+    }
+
+
+    function draw1() {
+        $.ajax({
+            url: $("#myUrl").val() + "GetOverAllScores",
+            type: "GET",
+            data: { userId: $('#userId').val() },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {                
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }
+
+</script>
+
+@Html.Hidden("myUrl", @Url.Action("/", "Report"))
+<div id="print-content">
+    <button class="btn btn-primary navbar-btn pull-right" value="PDF" onclick='pdfDiv(@ViewBag.UserId)'>
+        <span class="glyphicon glyphicon-download-alt"> PDF</span>
+    </button>    
+    <button class="btn btn-primary navbar-btn pull-right" value="Print" onclick="printDiv('Report')" >
+        <span class="glyphicon glyphicon-print"> Print</span>
+    </button>
+</div>
+<h2>Student Report</h2>
+
+<div id='Report'>
+    @Html.Action("StudentInfo", new { userId = @ViewBag.UserId })    
+    <table style="background-color:darkblue; color:white;" width="100%">
+        <tr><td colspan="4">OVERALL SCORES</td></tr>
+        <tr>
+            <td width="33%"><div id="chart1" /></td>
+            <td width="33%"><div id="chart2" /></td>
+            <td width="34%"><div id="chart3" /></td>
+        </tr>
+    </table>
+    <table style="background-color:darkblue; color:white;" width="100%">
+        <tr><td colspan="4">SUBJECT WISE SCORES</td></tr>
+        <tr>
+            <td width="33%"><div id="chartS1" /></td>
+            <td width="33%"><div id="chartS2" /></td>
+            <td width="34%"><div id="chartS3" /></td>
+        </tr>
+    </table>
+    <table style="background-color:darkblue; color:white;" width="100%">
+        <tr><td colspan="4">COMPETENCY LEVEL BASED SCORES</td></tr>
+        <tr>
+            <td width="20%"><div id="chartC1" /></td>
+            <td width="20%"><div id="chartC2" /></td>
+            <td width="20%"><div id="chartC3" /></td>
+            <td width="20%"><div id="chartC4" /></td>
+            <td width="20%"><div id="chartC5" /></td>
+        </tr>
+    </table>
+    <table style="background-color:darkblue; color:white;" width="100%">
+        <tr><td colspan="4">DIFFICULTY LEVEL BASED SCORES</td></tr>
+        <tr>
+            <td width="33%"><div id="chartD1" /></td>
+            <td width="33%"><div id="chartD2" /></td>
+            <td width="34%"><div id="chartD3" /></td>
+        </tr>
+    </table>
+</div>

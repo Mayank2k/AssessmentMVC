@@ -1,0 +1,78 @@
+﻿@model AssessmentMVC.Models.QuestionMaster
+
+@{
+    ViewBag.Title = "Details";
+}
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<dl class="text-right">
+    <b>@Html.ActionLink("Copy Question", "CopyQuestion", new { id = Model.QuestionID }, new { target = "_blank" })    |   @Html.ActionLink("Create Question", "Create", null, new { target = "_blank" })    |   @Html.ActionLink("Back to Question List", "Index")</b>
+</dl>
+<h2>Question Code: @Model.QuestionCode <i>(Current Status: @Model.Status.Description)</i></h2>
+@if (Model.ParentQuestionID > 0)
+{
+    string sourceQuestion = string.Format("Source Question Code: {0}", ViewBag.SourceQuestionCode);
+    @Html.ActionLink(sourceQuestion, "Details", "QuestionMaster", new { id = Model.ParentQuestionID }, new { target = "_blank" })
+}
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Comments):
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Comments)
+    </dd>
+</dl>
+
+@if (!@Model.StatusID.Equals("A"))
+{
+    <dl class="text-right">
+        <dd>
+            @using (@Html.BeginForm("UpdateStatus", "QuestionMaster", new { Id = Model.QuestionID }, FormMethod.Post))
+            {
+                @Html.Label("New Status:")
+                @Html.DropDownList("StatusID", null, htmlAttributes: new { @class = "text-right" })
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <br />
+                @Html.Label("New Comments:")
+                @Html.TextArea("userComments", new { rows = "3", cols = "50" })
+            }
+        </dd>
+    </dl>
+    <p class="pull-right">
+        @Html.ActionLink("Edit Question", "Edit", new { id = Model.QuestionID })
+    </p>
+}
+
+<hr />
+<div>
+    <dl class="dl-horizontal">
+        @*<dt>
+                @Html.DisplayNameFor(model => model.QuestionCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.QuestionCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.QuestionType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.QuestionType)
+            </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuestionBody):
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.QuestionBody)
+        </dd>
+    </dl>
+</div>
+<hr />
+@Html.Action("Index", "QuestionOptions", new { QuestionId = Model.QuestionID, QuestionCode = Model.QuestionCode })
+<hr />
+@Html.Action("Index", "QuestionTags", new { QuestionId = Model.QuestionID, QuestionCode = Model.QuestionCode })

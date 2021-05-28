@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChatter);
+    google.setOnLoadCallback(drawPie);
+    google.setOnLoadCallback(drawDonut);
+    google.setOnLoadCallback(drawLines);
+    google.setOnLoadCallback(drawStacked);
+
+    function drawChatter() {
+        var data = google.visualization.arrayToDataTable([
+            ['Age', 'Weight'],
+            [8, -12],
+            [-4, 5.5],
+            [11, 14],
+            [4, 5],
+            [-3, -3.5],
+            [6.5, -7]
+        ]);
+
+        var options = {
+            title: 'Scatter chart',
+            hAxis: { title: 'X', minValue: -20, maxValue: 20 },
+            vAxis: { title: 'Y', minValue: -20, maxValue: 20 },
+            legend: 'none'
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chartContainer5'));
+
+        chart.draw(data, options);
+    }
+
+    function drawPie() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Task', 'Hours per Day'],
+            ['Work', 11],
+            ['Eat', 2],
+            ['Commute', 2],
+            ['Watch TV', 2],
+            ['Sleep', 7]
+        ]);
+
+        var options = {
+            title: 'Pie chart'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chartContainer4'));
+
+        chart.draw(data, options);
+    }
+
+    function drawDonut() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work', 11],
+          ['Eat', 2],
+          ['Commute', 2],
+          ['Watch TV', 2],
+          ['Sleep', 7]
+        ]);
+
+        var options = {
+            title: 'Donut Chart',
+            pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chartContainer3'));
+        chart.draw(data, options);
+    }
+
+    function drawLines() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'X');
+        data.addColumn('number', 'Y');
+        var y = 0;
+        var x = 0;
+        for (var i = 0; i < 1000; i += 1) {
+            y += (Math.random() * 10 - 5);
+            x = i - 1000 / 2;
+            data.addRows([x,y]);
+        }
+
+        var options = {
+            hAxis: {
+                title: 'Y'
+            },
+            vAxis: {
+                title: 'X'
+            }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chartContainer2'));
+
+        chart.draw(data, options);
+    }
+
+    function drawStacked() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('timeofday', 'X');
+        data.addColumn('number', 'Motivation Level');
+        data.addColumn('number', 'Energy Level');
+        data.addColumn('number', 'Another');
+
+        data.addRows([
+          [{ v: [8, 0, 0], f: '8' }, 1, 1.25, 1.25],
+        [{ v: [9, 0, 0], f: '9' }, 2, 1.5, 1.75],
+        [{ v: [10, 0, 0], f: '10' }, 3, 2, 2.25],
+        [{ v: [11, 0, 0], f: '11' }, 4, 3.25, 1.5],
+        [{ v: [12, 0, 0], f: '12' }, 5, 3.25, 1.25],
+        [{ v: [13, 0, 0], f: '13' }, 6, 4, 1.25],
+        [{ v: [14, 0, 0], f: '14' }, 7, 5, 3.25],
+        [{ v: [15, 0, 0], f: '15' }, 8, 6.25, 1.75],
+        [{ v: [16, 0, 0], f: '16' }, 9, 8.5, 4.25],
+        [{ v: [17, 0, 0], f: '17' }, 10, 11, 2.75],
+        ]);
+
+        var options = {
+            title: 'Stacked Bar',
+            isStacked: true,
+            hAxis: {
+                title: 'Y',
+                viewWindow: {
+                    min: [7, 30, 0],
+                    max: [17, 30, 0]
+                }
+            },
+            vAxis: {
+                title: 'x'
+            }
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chartContainer1'));
+        chart.draw(data, options);
+    }
+    </script>
+
+    <style>
+        .myblock {
+            padding: 5px;
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+    <header><h1>Report</h1></header>
+    <div class="myblock"><div id="chartContainer1" style="height: 300px; width: 50%; margin: auto;"></div></div>
+    <div class="myblock"><div id="chartContainer2" style="height: 300px; width: 50%; margin: auto; "></div></div>
+    <div class="myblock"><div id="chartContainer3" style="height: 300px; width: 50%; margin: auto;"></div></div>
+    <div class="myblock"><div id="chartContainer4" style="height: 300px; width: 50%; margin: auto;"></div></div>
+    <div class="myblock"><div id="chartContainer5" style="height: 300px; width: 50%; margin: auto;"></div></div>
+</body>

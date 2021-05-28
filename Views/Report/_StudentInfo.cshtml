@@ -1,0 +1,35 @@
+﻿@using AssessmentMVC.Custom;
+@model AssessmentMVC.Models.User
+
+@Html.Hidden("userId", Model.UserID)
+<br/>
+<table border="0" style="background-color:lightgray" width="100%" >    
+    <tr> <td colspan="4">-</td></tr>
+    <tr>
+        <td width="10%" valign="middle" align="center">        
+            @*<img src="~/Images/OS5A1.png" alt="No Image" width="100" height="100" class="img-circle"/>*@
+            @Html.Image("~/Images/OS5A1.png")
+            </td>
+        <td width="10%"></td>
+        <td width="60%" valign="top">
+                <b>@Model.FirstName @Model.LastName </b>
+                Class @Model.UserMappings.FirstOrDefault().ClassID, Section @Model.UserMappings.FirstOrDefault().Section.SectionName
+                <br />
+                Roll No. @Model.UserMappings.FirstOrDefault().RollNo                        
+        </td>
+        <td width="20%" valign="top">
+            Assessment Cycle
+        <br />
+        <b>July - August</b>
+        </td>
+    </tr>    
+    <tr><td colspan="2"> <i>Userid: @Model.RegistrationNo</i></td>
+    <td colspan="2" align="left">@Model.School.SchoolName, @Model.School.CityCode, (@Model.School.StateCode)</td></tr>
+    <tr> <td colspan="4">-</td></tr>
+</table>
+
+@*@Html.Hidden("myUrl", @Url.Action("/", "Report"))
+@Html.Partial("_OverAllScore")
+@Html.Partial("_SubjectWiseScore")
+@Html.Partial("_CompetencyWiseScore")
+@Html.Partial("_DifficultyWiseScore")*@

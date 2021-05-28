@@ -1,0 +1,85 @@
+﻿@model IEnumerable<AssessmentMVC.Models.School>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>School List</h2>
+<div class="pull-right">
+    @Html.ActionLink("Create School", "Create") |
+<a href="~/upload.aspx" target="_blank">Upload</a> |
+@Html.ActionLink("State-City Master", "Index", "State") |
+@Html.ActionLink("Board", "Index", "Board")
+</div>
+@*@Html.ActionLink("Board Master", "Index", "Board")*@
+<hr />
+
+<div style="font-family:Arial">
+    <p>
+        @using (@Html.BeginForm("Index", "School", FormMethod.Get))
+        {
+            <b>Search By:</b>
+            @Html.RadioButton("searchBy", "Code", true) <text>Code</text>
+            @Html.RadioButton("searchBy", "Name") <text>Name</text>
+            @Html.TextBox("search")
+            <button class="btn btn-default" type="submit" value="Search">
+                <span class="glyphicon glyphicon-search"> Search</span>
+            </button>
+        }
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CityCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Board.BoardName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.SchoolCode).ToString(), "Details", "School", new { id = item.SchoolID }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SchoolName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.City.CityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State.StateName)
+                </td>
+                <td>
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.Board.BoardName).ToString(), "Details", "Board", new { id = item.BoardID }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Active)
+                </td>
+                <td>
+                    |
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.SchoolID }) |*@
+                    @Html.ActionLink("Users", "Index", "User", new { SchoolId = item.SchoolID }, null) |
+                    @Html.ActionLink("Test Result", "Index", "TestResult", new { SchoolId = item.SchoolID }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

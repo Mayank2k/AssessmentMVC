@@ -1,0 +1,103 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<AssessmentMVC.Models.QuestionMaster>
+
+@{
+    ViewBag.Title = "Index";
+}
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<h2>Question Bank</h2>
+<div class="pull-right">
+    <b>@Html.ActionLink("Create New Question", "Create")   |   @Html.ActionLink("Course-Unit-Topic Master", "Index", "Unit")</b>
+ </div>            
+<hr />
+
+<p>
+    @using (@Html.BeginForm("Index", "QuestionMaster", FormMethod.Get))
+    {
+        @Html.Label("Question:")
+        @Html.TextBox("Code", null, new { @placeholder = "Search question" })
+        @Html.Label("Course: ")
+        @Html.DropDownList("CourseID", null, "-- All --", null)
+        @Html.Label("Status: ")
+        @Html.DropDownList("StatusID", null, "-- All --", null)
+        @Html.Label("Difficulty: ")
+        @Html.DropDownList("DifficultyLevelID", null, "-- All --", null)
+        <button class="btn btn-default" type="submit" value="Search">
+            <span class="glyphicon glyphicon-search"> Search</span>
+        </button>
+    }
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().QuestionTags.FirstOrDefault().CourseID)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.First().QuestionID)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.First().QuestionCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().CreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().StatusID)
+        </th>        
+        <th>
+            @Html.DisplayNameFor(model => model.First().QuestionBody)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionTags.FirstOrDefault().Course.CourseName)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.QuestionID)
+            </td>*@
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(modelItem => item.QuestionCode).ToString(), "Details", "QuestionMaster", new { id = item.QuestionID }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @if (item.StatusID.Equals("A"))
+                {
+                    @Html.DisplayFor(modelItem => item.Status.Description)                    
+                }
+                else
+                {
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.Status.Description).ToString(), "Details", "QuestionMaster", new { id = item.QuestionID }, null)
+                }
+            </td>
+            @*<td>                
+                @using (Html.BeginForm())
+                {
+                    @Html.DropDownListFor(modelItem => item.StatusID, new SelectList(ViewBag.StatusID, "Value", "Text", item.StatusID))
+                    <input type="submit" value="Save" class="btn btn-default" />
+                }
+            </td>*@
+            <td>
+                @Html.Raw(item.QuestionBody)
+            </td>
+            @*<td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.QuestionID }) |
+                @Html.ActionLink("Options", "Index", "QuestionOptions", new { QuestionId = item.QuestionID, QuestionCode = item.QuestionCode }, null) |
+                @Html.ActionLink("Tagging", "Index", "QuestionTags", new { QuestionId = item.QuestionID, QuestionCode = item.QuestionCode }, null)
+            </td>*@
+        </tr>
+    }
+</table>
+
+@*@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] }))*@
+@*@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })*@
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, code = Request.QueryString["code"], courseID = Request.QueryString["CourseID"], statusID = Request.QueryString["StatusID"], difficultyLevelID = Request.QueryString["DifficultyLevelID"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
+@*@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchBy = Request.QueryString["searchBy"], search = Request.QueryString["search"] }), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayItemSliceAndTotal = true })*@ 

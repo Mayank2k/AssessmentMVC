@@ -1,0 +1,79 @@
+﻿@model IEnumerable<AssessmentMVC.Models.School>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@using (@Html.BeginForm("Calculate", "TestResult", new { SchoolId = Request["SchoolId"] }, FormMethod.Post))
+{
+    <button class="btn btn-default navbar-btn pull-right">
+        <span class="glyphicon glyphicon-check"> Calculate</span>
+    </button>
+}
+<h2>School List</h2>
+<div style="font-family:Arial">
+    <p>
+        <div class="form-group">
+            <div class="col-md-1 col-md-offset-4">
+                @Html.Label("School:", htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="col-md-3">
+                @using (@Html.BeginForm("Index", "Report", FormMethod.Get, null))
+            {
+                    @Html.DropDownList("SchoolID", null, "-- Select School --", htmlAttributes: new { @class = "form-control", onchange = "this.form.submit();" })
+                }
+            </div>
+        </div>
+    </p>
+    
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolName)
+            </th>        
+            <th>Report (School / Class / Section)</th>            
+        </tr>
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.SchoolCode).ToString(), "Details", "School", new { id = item.SchoolID }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SchoolName)
+                    <br />
+                    (@Html.DisplayFor(modelItem => item.City.CityName) - @Html.DisplayFor(modelItem => item.State.StateName))
+                </td>                        
+                <td>
+                    <table>  
+                        <tr>
+                            @Html.ActionLink("School Report", "Report", "Report", new { SchoolId = item.SchoolID }, new { target = "_blank" }) |
+                            @Html.ActionLink("Students Reports", "Index", "TestResult", new { SchoolId = item.SchoolID }, new { target = "_blank" })
+                            <br />
+                            <i>Class & Section Reports:</i>
+                            @foreach (var itemClassID in item.UserMappings.Select(x => x.ClassID).Distinct().ToList().OrderBy(x=>x.Value))
+                            {
+                                <td>
+                                    @Html.ActionLink(itemClassID.ToString(), "Report", "Report", new { SchoolId = item.SchoolID, ClassId = itemClassID }, new { target = "_blank" }) |
+                                </td>
+                            } 
+                        </tr>                        
+                        <tr>                            
+                            @foreach (var itemClassSectionID in item.UserMappings.Select(x => new { x.ClassID, x.SectionID }).Distinct().ToList().OrderBy(x => x.ClassID).ThenBy(x=>x.SectionID))
+							{
+                                <td>                                    
+                                    @Html.ActionLink(itemClassSectionID.ClassID + "-" + itemClassSectionID.SectionID, "Report", "Report", new { SchoolId = item.SchoolID, ClassId = itemClassSectionID.ClassID, SectionId = itemClassSectionID.SectionID }, new { target = "_blank" }) |
+                                </td>                                
+                             }
+                        </tr>                   
+                   </table>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

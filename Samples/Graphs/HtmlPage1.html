@@ -1,0 +1,83 @@
+﻿<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="http://www.cloudformatter.com/Resources/Pages/CSS2Pdf/Script/xepOnline.jqPlugin.js"></script>
+
+<style>
+    button {
+        color: #fff;
+        background-image: linear-gradient(to bottom,#337ab7 0,#265a88 100%);
+        background-repeat: repeat-x;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 1.5;
+        border-radius: 3px;
+        cursor: pointer;
+        border-color: #265a88;
+        text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
+    }
+
+        button:hover {
+            background-image: linear-gradient(to top,#337ab7 0,#265a88 100%);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.25),0 1px 1px rgba(0,0,0,.175);
+        }
+</style>
+
+
+<script>
+    //initilize globar variable for hold chart data
+    google.load("visualization", "1.1", { packages: ["corechart"] });
+</script>
+<script>
+    google.setOnLoadCallback(drawChart);
+
+    function AddNamespaceHandler(){
+        var svg = jQuery('#chart_div svg');
+        svg.attr("xmlns", "http://www.w3.org/2000/svg");
+        svg.css('overflow','visible');
+    }
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2009',  1000,      600],
+          ['2010',  1170,      1460],
+          ['2011',  1660,       1220],
+          ['2012',  1030,      540],
+          ['2013',  1000,      400],
+          ['2014',  1170,      460],
+          ['2015',  660,       1120],
+          ['2016',  1030,      540]
+        ]);
+
+        var options = {
+            title: 'Company Performance',
+            hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+            vAxis: {minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        google.visualization.events.addListener(chart, 'ready', AddNamespaceHandler);
+        chart.draw(data, options);
+    }
+
+    function PDFClick() {
+        return xepOnline.Formatter.Format('JSFiddle', { render: 'download', srctype: 'svg' });
+    }
+    //var click="return xepOnline.Formatter.Format('JSFiddle', {render:'download', srctype:'svg'})";
+    //jQuery('#buttons').append('<button onclick="'+ click +'">PDF</button>');
+
+    //click="return xepOnline.Formatter.Format('JSFiddle', {render:'newwin', mimeType:'image/png', resolution:'120', srctype:'svg'})";
+    //jQuery('#buttons').append('<button onclick="'+ click +'">PNG @@120dpi</button>');
+
+    //click = "return xepOnline.Formatter.Format('JSFiddle', {render:'newwin', mimeType:'image/jpg', resolution:'300', srctype:'svg'})";
+    //jQuery('#buttons').append('<button onclick="'+ click +'">JPG @@300dpi</button>');
+
+</script>
+
+<div id="buttons"></div>
+<button onclick="PDFClick()">PDF</button>
+<hr />
+<div id="JSFiddle">
+    <div id="chart_div" style="width: 1100px; height: 500px;"></div>
+</div>

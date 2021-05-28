@@ -1,0 +1,16 @@
+﻿    
+@Html.Hidden("myUrl", @Url.Action("/", "Report")) 
+    @if (@ViewBag.UserId != null )
+    {
+        <h2>Student Report</h2>
+        @Html.Action("StudentInfo", new { userId = @ViewBag.UserId })
+    }
+    else
+    {   
+        @Html.Action("SchoolInfo", new { schoolId = @ViewBag.SchoolId, classId = @ViewBag.classId, sectionId = @ViewBag.sectionId, subjectId = @ViewBag.subjectId })
+    }
+    
+    @Html.Partial("_OverAllScore")
+    @Html.Partial("_SubjectWiseScore")
+    @Html.Partial("_CompetencyWiseScore")
+    @Html.Partial("_DifficultyWiseScore")

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<AssessmentMVC.Models.LearningObjective>
+
+@{
+    ViewBag.Title = "Index";
+    dynamic topicID = Model.FirstOrDefault() != null ? Model.FirstOrDefault().TopicID.ToString() : Request.QueryString["TopicID"];
+    dynamic unitID = Model.FirstOrDefault() != null ? Model.FirstOrDefault().Topic.UnitID.ToString() : Request.QueryString["UnitID"];
+}   
+
+<h2>Learning Objectives for TopicID: @topicID</h2>
+<p class="pull-right">
+        @Html.ActionLink("Back to Topics", "Index", "Topic", new { TopicId = @topicID, UnitId = @unitID }, null)    |
+        @Html.ActionLink("Add New Learning Objective", "Create", new { TopicId = @topicID })
+    </p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Topic.CourseID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Topic.UnitID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TopicID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Topic.Unit.Course.CourseName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Topic.Unit.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Topic.Description)
+        </td>
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.Description).ToString(), "Details", new { id = item.LearningObjectiveID }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>        
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.LearningObjectiveID })
+        </td>
+    </tr>
+}
+
+</table>

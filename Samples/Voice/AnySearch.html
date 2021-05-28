@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <!-- HTML5 Speech Recognition API -->
+    <script type="text/javascript">
+    var recognition = new webkitSpeechRecognition();
+    recognition.onresult = function(event) {
+      if (event.results.length > 0) {
+        q.value = event.results[0][0].transcript;
+        
+        
+        if (document.getElementById('Dictionary').checked == true)
+        {
+            q.form.action = 'https://en.oxforddictionaries.com/definition/' + q.value;
+
+        } else if (document.getElementById('Google').checked == true)
+        {
+            q.form.action = 'https://www.google.com/search';
+            document.getElementById('frmSearch').submit();
+
+        } else if (document.getElementById('GoogleMap').checked == true)
+        {
+            q.form.action = 'https://www.google.co.in/maps/place/' + q.value;
+        }
+          
+        q.form.submit();
+    }
+    }
+    </script>
+
+</head>
+<body>
+    
+   <form id="frmSearch" action="" target="_blank">       
+       <img id="mic-on" style="display:block" src="../../Images/mic.gif" onclick="recognition.start()" />
+       <input type="text" id="q" name="q" size=60 placeholder="--Please Speak to Search--">
+       <!--<input type="button" value="Click to Speak" onclick="recognition.start()">-->
+        <br />
+        <input type="radio" name="searchtype" id="Dictionary" checked/> Oxford Dictionary
+        <input type="radio" name="searchtype" id="Google" /> Google
+        <input type="radio" name="searchtype" id="GoogleMap" /> Google Map
+    </form>
+
+</body>
+</html>

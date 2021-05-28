@@ -1,0 +1,113 @@
+﻿@model AssessmentMVC.Models.TestPaper
+
+@{
+	ViewBag.Title = "Details";
+}
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+@using (Html.BeginForm("ExportToExcel", "TestPaper", new { testPaperCode = Model.TestPaperCode }, FormMethod.Post))
+{
+	<div id="print-content">
+		<button class="btn btn-primary navbar-btn pull-right">
+			<span class="glyphicon glyphicon-download-alt"></span>
+		</button>
+	</div>
+}
+
+@if (!@Model.Active && Model.TotalQuestions.Equals(Model.MaxQuestions))
+{
+	using (Html.BeginForm("UpdateStatus", "TestPaper", new { Id = Model.TestPaperID }, FormMethod.Post))
+	{
+		<div id="print-content">
+			<button class="btn btn-primary navbar-btn pull-right">
+				Publish
+			</button>
+		</div>
+	}
+}
+
+<h2>Paper Code: <b>@Model.TestPaperCode</b> <i>(Status: @((@Model.Active) ? "Published" : "Pending"))</i></h2>
+<p class="pull-right">
+	@Html.ActionLink("Edit", "Edit", new { id = Model.TestPaperID }) |
+	@Html.ActionLink("Back to List", "Index")
+</p>
+<hr />
+<div>
+	<dl class="dl-horizontal">
+
+		<dt>
+			@Html.DisplayNameFor(model => model.CourseID):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Course.CourseName)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.TestPaperCode):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.TestPaperCode)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Description):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Description)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Instructions):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Instructions)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.TestPaperSetCode):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.TestPaperSet.Description)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.ActivationDate):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.ActivationDate)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.ExpiryDate):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.ExpiryDate)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.MaxQuestions):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.MaxQuestions)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.TotalQuestions):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.TotalQuestions)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Marks):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Marks)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.Time):
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.Time)
+		</dd>
+	</dl>
+</div>
+<hr />
+@*@Html.Action("Index", "TestPaperSections", new { TestPaperId = Model.TestPaperID})*@
+@*<h2>Question List for Section: @Model.TestPaperSections.First().TestPaperSectionCode</h2>*@
+@Html.Action("Index", "TestPaperSectionQuestions", new { TestPaperId = Model.TestPaperID, TestPaperSectionId = Model.TestPaperSections.First().TestPaperSectionID })
+
+

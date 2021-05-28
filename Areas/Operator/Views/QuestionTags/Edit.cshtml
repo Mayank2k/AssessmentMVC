@@ -1,0 +1,130 @@
+﻿@model AssessmentMVC.Models.QuestionTag
+
+@{
+    ViewBag.Title = "Edit";
+}
+<script src="~/Scripts/Custom/CustomJsQTag.js"></script>
+
+<h2>Edit Tagging for Question Code: @Html.ValueFor(model => model.QuestionMaster.QuestionCode)</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("myUrl", @Url.Action("/", "QuestionTags"))
+        @Html.HiddenFor(model => model.QuestionTagID)
+        @Html.HiddenFor(model => model.QuestionID)
+        @Html.HiddenFor(model => model.CreatedBy)
+        @Html.HiddenFor(model => model.CreatedDate)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("QuestionID", null, "-- Select Question --", htmlAttributes: new { @class = "form-control", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.QuestionID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CourseID", null, "-- Select Course --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CourseID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("UnitID", null, "-- Select Unit --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UnitID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TopicID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TopicID", null, "-- Select Topic --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TopicID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LearningObjectiveID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("LearningObjectiveID", null, "-- Select LearningObjective --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LearningObjectiveID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LearningOutcomeID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("LearningOutcomeID", null, "-- Select LearningOutcome --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LearningOutcomeID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CompetencyID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CompetencyID", null, "-- Select Competency --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CompetencyID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SkillID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("SkillID", null, "-- Select Skill --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SkillID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubskillID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("SubskillID", null, "-- Select Subskill --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SubskillID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.LearningLevelID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("LearningLevelID", null, "-- Select LearningLevel --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LearningLevelID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DifficultyLevelID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DifficultyLevelID", null, "-- Select DifficultyLevel --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DifficultyLevelID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Active, htmlAttributes: new { @checked = true })
+                    @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Question", "Details", "QuestionMaster", new { id = Model.QuestionID }, null)
+</div>

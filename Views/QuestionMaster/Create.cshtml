@@ -1,0 +1,81 @@
+﻿@model AssessmentMVC.Models.QuestionMaster
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<script src="https://cdn.ckeditor.com/4.7.3/standard-all/ckeditor.js"></script>
+@*<script type="text/javascript" src="~/Scripts/ContentEditor/ckeditorfull/ckeditor.js"></script>*@
+
+<h2>Create New Question</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.QuestionCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.QuestionCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionTypeID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("QuestionTypeID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.QuestionTypeID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionBody, htmlAttributes: new { @class = "control-label col-md-2" })            
+            <div class="col-md-10">                
+                @*@Html.ActionLink("Upload Image to Server", "UploadFile", "Upload", new { QuestionCode = Model?.QuestionCode==null? ViewBag.QuestionID: Model.QuestionCode }, new { target = "_blank" })*@
+                @Html.ActionLink("Upload Image to Server", "UploadFile", "Upload", null, new { target = "_blank" })
+                @Html.TextAreaFor(model => model.QuestionBody, new { htmlAttributes = new { @id = "QuestionBody", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.QuestionBody, "", new { @class = "text-danger" })
+                <script>
+                    CKEDITOR.replace('QuestionBody', {
+			            extraPlugins: 'mathjax',
+			            mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML',
+			            height: 320
+		            });
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Marks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Marks, new { htmlAttributes = new { @class = "form-control", @Value = "1.00" } })
+                @Html.ValidationMessageFor(model => model.Marks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Active, htmlAttributes: new { @checked = true })
+                    @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

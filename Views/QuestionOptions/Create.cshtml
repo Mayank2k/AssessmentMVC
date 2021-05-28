@@ -1,0 +1,131 @@
+﻿@model AssessmentMVC.Models.QuestionOption
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<script src="https://cdn.ckeditor.com/4.7.3/standard-all/ckeditor.js"></script>
+@*<script type="text/javascript" src="~/Scripts/ContentEditor/ckeditorfull/ckeditor.js"></script>*@
+
+<h2>Create Option for Question Code: @ViewBag.QuestionCode </h2>
+<hr/>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.QuestionID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("QuestionID", null, htmlAttributes: new { @class = "form-control" , disabled= "disabled" })
+                @Html.ValidationMessageFor(model => model.QuestionID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OptionID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("OptionID", null, htmlAttributes: new { @class = "form-control"})*@
+                @Html.DropDownListFor(model => model.OptionID, new SelectList((System.Collections.IEnumerable)ViewData["OptionID"], "Value", "Text"), htmlAttributes: new { @class = "form-control" })                
+                @Html.ValidationMessageFor(model => model.OptionID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OptionText, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ActionLink("Upload Image to Server", "UploadFile", "Upload", null, new { target = "_blank" })
+                @Html.TextAreaFor(model => model.OptionText, new { htmlAttributes = new { @id = "OptionText", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OptionText, "", new { @class = "text-danger" })
+                <script>
+                    CKEDITOR.replace('OptionText', {
+			            extraPlugins: 'mathjax',
+			            mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML',
+			            height: 200
+		            } );
+                </script>                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CorrectOption, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.CorrectOption)
+                    @Html.ValidationMessageFor(model => model.CorrectOption, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExplanationForOption, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ExplanationForOption, new { htmlAttributes = new { @id = "ExplanationForOption", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ExplanationForOption, "", new { @class = "text-danger" })
+                <script>
+                    CKEDITOR.replace('ExplanationForOption', {
+			            extraPlugins: 'mathjax',
+			            mathJaxLib: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML',
+			            height: 120
+		            });
+                </script>                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MisconceptionID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">                
+                @Html.DropDownList("MisconceptionID", null, "-- Select Misconception --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MisconceptionID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OtherMisconceptionID1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("OtherMisconceptionID1", null, "-- Select Misconception --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OtherMisconceptionID1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OtherMisconceptionID2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("OtherMisconceptionID2", null, "-- Select Misconception --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OtherMisconceptionID2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Score", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ScoringWeight", null, "-- Select Score --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ScoringWeight, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Active, htmlAttributes: new { @checked = true })
+                    @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Question", "Details", "QuestionMaster", new { Id = Request.QueryString["QuestionId"] }, null)    
+</div>
